@@ -126,7 +126,7 @@ impl<N: Network> Puzzle<N> {
 
         // Construct the leaves of the Merkle tree.
         let leaves = self.get_leaves(solution)?;
-        println!("leaves: {:?}", leaves.len());
+        // println!("leaves: {:?}", leaves.len());
         // Get the proof target.
         let proof_target = Self::leaves_to_proof_target(&leaves)?;
 
@@ -198,17 +198,19 @@ impl<N: Network> Puzzle<N> {
         minimum_proof_target: Option<u64>,
     ) -> Result<Solution<N>> {
         // Construct the solution.
-        print!("prove params, epoch_hash: {:?}, address: {:?}, counter: {:?}, minimum_proof_target: {:?}", epoch_hash, address, counter, minimum_proof_target);
+        // print!("prove params, epoch_hash: {:?}, address: {:?}, counter: {:?}, minimum_proof_target: {:?}", epoch_hash, address, counter, minimum_proof_target);
         let solution = Solution::new(epoch_hash, address, counter)?;
         // Compute the proof target.
         let proof_target = self.get_proof_target(&solution)?;
-        println!("proof_target: {}", proof_target);
+        // println!("proof_target: {}", proof_target);
         // Check that the minimum proof target is met.
         if let Some(minimum_proof_target) = minimum_proof_target {
             if proof_target < minimum_proof_target {
                 bail!("Solution was below the minimum proof target ({proof_target} < {minimum_proof_target})")
             }
         }
+        print!("prove params, epoch_hash: {:?}, address: {:?}, counter: {:?}, minimum_proof_target: {:?}", epoch_hash, address, counter, minimum_proof_target);
+        println!("proof_target: {}", proof_target);
         println!("solution: {}", solution);
         // Return the solution.
         Ok(solution)
