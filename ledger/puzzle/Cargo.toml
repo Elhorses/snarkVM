@@ -103,3 +103,6 @@ version = "0.8"
 [dev-dependencies.snarkvm-ledger-puzzle-epoch]
 path = "epoch"
 version = "=0.16.19"
+
+[dependencies]
+log = "0.4.20"

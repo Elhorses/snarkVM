@@ -39,10 +39,15 @@ impl<N: Network> SolutionID<N> {
     pub fn new(epoch_hash: N::BlockHash, address: Address<N>, counter: u64) -> Result<Self> {
         // Construct the nonce as sha256d(epoch_hash_bytes_le[0..8] || address || counter).
         let mut bytes_le = Vec::new();
+        println!("epoch_hash_le: {:?}", epoch_hash.to_bytes_le()?);
         let lower_bytes = &epoch_hash.to_bytes_le()?[0..8];
+        println!("epoch_hash.to_bytes_le[0..8]: {:?}", lower_bytes);
         bytes_le.extend_from_slice(lower_bytes);
+        println!("bytes_le.extend(epoch.le_byte): {:?}", bytes_le );
         bytes_le.extend_from_slice(&address.to_bytes_le()?);
+        println!("bytes_le.extend(epoch.le_byte+address.le_byte): {:?}", bytes_le);
         bytes_le.extend_from_slice(&counter.to_bytes_le()?);
+        println!("bytes_le.extend(epoch.le_byte+address.le_byte+counter.le_byte): {:?}", bytes_le);
         Ok(Self::from(sha256d_to_u64(&bytes_le)))
     }
 }
